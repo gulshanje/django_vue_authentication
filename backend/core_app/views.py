@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from core_app.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_access_token
+from core_app.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_access_token, decode_refresh_token
 from core_app.models import User
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -47,3 +47,11 @@ class UserAPIView(APIView):
     
     def get(self, request):
         return Response(UserSerializer(request.user).data)
+    
+class RefreshTokenAPIView(APIView):
+    def post(self, request):
+        refresh_token = request.COOKIES.get('refresh_token')
+
+        id = decode_refresh_token(refresh_token)
+        access_token = create_access_token(id)
+        return Response({'token':refresh_token})
