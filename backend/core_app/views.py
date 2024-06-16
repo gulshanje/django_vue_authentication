@@ -1,6 +1,7 @@
+import random, string
 from django.shortcuts import render
 from core_app.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_access_token, decode_refresh_token
-from core_app.models import User, UserToken
+from core_app.models import ResetPassword, User, UserToken
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework  import exceptions
@@ -73,3 +74,14 @@ class LogoutAPIView(APIView):
             'message': 'Successfully logout'
         }
         return response
+    
+class ResetPasswordAPIView(APIView):
+    def post(self, request):
+        token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10))
+        ResetPassword.objects.create(
+            email=request.data['email'],
+            token = token
+        )
+        return Response({
+            'message': ' Successful'
+        })
