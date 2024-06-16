@@ -1,5 +1,7 @@
 import random, string
 from django.shortcuts import render
+from django.core.mail import send_mail
+from core_prj import settings
 from core_app.authentication import JWTAuthentication, create_access_token, create_refresh_token, decode_access_token, decode_refresh_token
 from core_app.models import ResetPassword, User, UserToken
 from rest_framework.views import APIView
@@ -75,13 +77,44 @@ class LogoutAPIView(APIView):
         }
         return response
     
-class ResetPasswordAPIView(APIView):
+class ForgotAPIView(APIView):
     def post(self, request):
+        email = request.data['email']
         token = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(10))
         ResetPassword.objects.create(
-            email=request.data['email'],
+            email=email,
             token = token
         )
+        url = 'http://localhost:3000/reset/' + token
+     
+        subject = "Reset your password"
+        message = 'Click <a href="%s"> here!</a> to reset password' % url #"message" + url
+        from_email = "dummy@from.com"
+
+        send_mail(subject, message, from_email, ['<Receiver Email Address>'], fail_silently=False)
         return Response({
-            'message': ' Successful'
+            'message': ' Reset link sent to your email!!'
+        })
+    
+class ResetAPIView(APIView):
+    def post(self, request):
+        data = request.data
+        if data['password'] != data['password_confirm']:
+            raise exceptions.APIException('Password do not match')
+        
+        reset_password = ResetPassword.objects.filter(token=data['token']).first()
+
+        if not reset_password:
+            raise exceptions.APIException('Invalid link')
+        
+        user = User.objects.filter(email=reset_password.email).first()
+
+        if not user:
+            raise exceptions.APIException('User not found')
+        
+        user.set_password(data['password'])
+        user.save()
+
+        return Response({
+            'message' : 'Successful'
         })
