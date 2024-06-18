@@ -20,4 +20,5 @@ from django.urls import path, include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('core_app.urls')),
+    path('upload/', include('core_bluugo_csv.urls')),
 ]
