@@ -1,7 +1,7 @@
 <template>
-    <main class="form-signin w-100 m-auto">
-  <form @submit.prevent="submit">
-    <img class="mb-4" src="@/assets/dhaba.jpeg" alt="" width="150" height="75">
+  <main class="form-signin w-100 m-auto">
+   <form @submit.prevent="submit">
+    <!-- <img class="mb-4" src="@/assets/dhaba.jpeg" alt="" width="150" height="75"> -->
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
@@ -29,16 +29,15 @@
     <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
   </form>
-</main>
+  </main>
 </template>
 
-<script>
-import { reactive } from 'vue';
+<script lang="ts">
+   import { reactive } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
-
     export default {
-        name: 'RegisterPage',
+        name: "RegisterView",
         setup(){
           const data = reactive ({
             first_name: '',
@@ -62,5 +61,24 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
+.form-signin {
+  max-width: 330px;
+  padding: 1rem;
+}
 
+.form-signin .form-floating:focus-within {
+  z-index: 2;
+}
+
+.form-signin input[type="email"] {
+  margin-bottom: -1px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
 </style>

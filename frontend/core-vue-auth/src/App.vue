@@ -1,18 +1,12 @@
 <template>
-  <!-- <img  class="logo" alt="Vue logo" src="./assets/dhaba.jpeg"> -->
-   <NavBar />
-   <router-view />
-  
+<NavBar />
+  <router-view/>
 </template>
 
 <script>
-import NavBar from '@/components/NavBar.vue';
-
+import NavBar from "@/components/NavBar"
 export default {
-  name: 'App',
-  components: {
-    NavBar
-  }
+  components: {NavBar}
 }
 </script>
 
@@ -24,24 +18,17 @@ export default {
   text-align: center;
   color: #2c3e50;
 }
-.form-signin {
-  max-width: 330px;
-  padding: 1rem;
+
+nav {
+  padding: 30px;
 }
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
+nav a {
+  font-weight: bold;
+  color: #2c3e50;
 }
 
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+nav a.router-link-exact-active {
+  color: #42b983;
 }
 </style>
