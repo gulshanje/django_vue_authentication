@@ -2,31 +2,31 @@
   <main class="form-signin w-100 m-auto">
    <form @submit.prevent="submit">
     <!-- <img class="mb-4" src="@/assets/dhaba.jpeg" alt="" width="150" height="75"> -->
-    <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+    <h1 class="h3 mb-3 fw-normal">Register New User</h1>
 
     <div class="form-floating">
-      <input v-model="data.first_name" class="form-control"   placeholder="First Name">
+      <input v-model="data.first_name" class="form-control mt-3"   placeholder="First Name">
       <label>First Name</label>
     </div>
     <div class="form-floating">
-      <input v-model="data.last_name"  class="form-control"   placeholder="Last Name">
+      <input v-model="data.last_name"  class="form-control mt-3"   placeholder="Last Name">
       <label  >Last Name</label>
     </div>
     <div class="form-floating">
-      <input v-model="data.email"  type="email" class="form-control"   placeholder="Email">
+      <input v-model="data.email"  type="email" class="form-control mt-3"   placeholder="Email">
       <label  >Email address</label>
     </div>
 
     <div class="form-floating">
-      <input v-model="data.password"  type="password" class="form-control"   placeholder="Password">
+      <input v-model="data.password"  type="password" class="form-control mt-3"   placeholder="Password">
       <label >Password</label>
     </div>
     <div class="form-floating">
-      <input v-model="data.password_confirm"  type="password" class="form-control"   placeholder="Confirm Password">
+      <input v-model="data.password_confirm"  type="password" class="form-control mt-3"   placeholder="Confirm Password">
       <label >Confirm Password</label>
     </div>
 
-    <button class="btn btn-primary w-100 py-2" type="submit">Register</button>
+    <button class="btn btn-primary w-100 py-2 mt-3" type="submit">Register</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
   </form>
   </main>
@@ -61,24 +61,5 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
-.form-signin {
-  max-width: 330px;
-  padding: 1rem;
-}
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
-}
-
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 </style>

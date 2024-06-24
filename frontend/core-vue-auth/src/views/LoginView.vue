@@ -5,11 +5,11 @@
     <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
 
     <div class="form-floating">
-      <input  v-model="data.email" type="email" class="form-control" id="floatingInput" placeholder="name@example.com">
+      <input  v-model="data.email" type="email" class="form-control mt-3" id="floatingInput" placeholder="name@example.com">
       <label for="floatingInput">Email address</label>
     </div>
     <div class="form-floating">
-      <input  v-model="data.password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
+      <input  v-model="data.password" type="password" class="form-control mt-3" id="floatingPassword" placeholder="Password">
       <label for="floatingPassword">Password</label>
     </div>
     <div>
@@ -17,7 +17,7 @@
     </div>
 
    
-    <button class="btn btn-primary w-100 py-2" type="submit">Sign in</button>
+    <button class="btn btn-primary w-100 py-2 mt-3" type="submit">Sign in</button>
     <p class="mt-5 mb-3 text-body-secondary">&copy; 2017–2024</p>
   </form>
 </main>
@@ -56,24 +56,5 @@ import { useRouter } from 'vue-router';
 </script>
 
 <style scoped>
-.form-signin {
-  max-width: 330px;
-  padding: 1rem;
-}
 
-.form-signin .form-floating:focus-within {
-  z-index: 2;
-}
-
-.form-signin input[type="email"] {
-  margin-bottom: -1px;
-  border-bottom-right-radius: 0;
-  border-bottom-left-radius: 0;
-}
-
-.form-signin input[type="password"] {
-  margin-bottom: 10px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
 </style>
