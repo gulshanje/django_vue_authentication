@@ -140,6 +140,7 @@ AUTH_USER_MODEL = 'core_app.USER'
 # Allow all port - for frontend
 CORS_ORIGIN_ALLOW_ALL = True
 
+
 # Allow frontend to get cookie
 CORS_ALLOW_CREDENTIALS = True
 
