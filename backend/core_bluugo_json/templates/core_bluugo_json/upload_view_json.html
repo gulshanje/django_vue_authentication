@@ -1,0 +1,241 @@
+{% comment %} <!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload, View, and Search JSON</title>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const uploadForm = document.getElementById("upload-form");
+        uploadForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const formData = new FormData(uploadForm);
+          fetch(uploadForm.action, {
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              alert(data.message);
+              loadData();
+            });
+        });
+
+        const searchForm = document.getElementById("search-form");
+        searchForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          loadData();
+        });
+
+        function loadData() {
+          const query = document.getElementById("search-input").value;
+          fetch(`/search/?search=${query}`, {
+            method: "GET",
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const tableBody = document.querySelector("#data-table tbody");
+              tableBody.innerHTML = "";
+              data.forEach((vehicle) => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${vehicle.model_year}</td><td>${vehicle.make}</td>
+                        <td>${vehicle.model}</td> <td>${vehicle.rejection_percentage}</td>
+                        <td>${vehicle.reason_1}</td><td>${vehicle.reason_2}</td><td>${vehicle.reason_3}</td> `;
+                tableBody.appendChild(row);
+              });
+            });
+        }
+
+        loadData();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Upload, View, and Search JSON</h1>
+    <form
+      id="upload-form"
+      method="post"
+      enctype="multipart/form-data"
+      action="{% url 'upload_view_json' %}"
+    >
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+    <h2>Search Data</h2>
+    <form id="search-form" method="get">
+      <input
+        type="text"
+        id="search-input"
+        name="search"
+        placeholder="Search..."
+      />
+      <button type="submit">Search</button>
+    </form>
+    <h2>Data</h2>
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>model_year</th>
+          <th>make</th>
+          <th>model</th>
+          <th>rejection_percentage</th>
+          <th>reason_1</th>
+          <th>reason_2</th>
+          <th>reason_3</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Data will be populated by JavaScript -->
+      </tbody>
+    </table>
+  </body>
+</html>
+{% endcomment %} {% comment %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Upload and View JSON Data</title>
+  </head>
+  <body>
+    <h1>Upload JSON File</h1>
+    <form
+      id="upload-form"
+      method="post"
+      enctype="multipart/form-data"
+      action="{% url 'upload_view_json' %}"
+    >
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+
+    <h2>Uploaded Data</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>model_year</th>
+          <th>make</th>
+          <th>model</th>
+          <th>rejection_percentage</th>
+          <th>reason_1</th>
+          <th>reason_2</th>
+          <th>reason_3</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+          <td>{{ vehicle.model_year }}</td>
+          <td>{{ vehicle.make }}</td>
+          <td>{{ vehicle.rejection_percentage }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </body>
+</html>
+{% endcomment %}
+
+<!-- myapp/templates/person_list.html -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Vehicle List</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        text-align: left;
+        padding: 8px;
+      }
+
+      thead {
+        border-bottom: 3pt solid black;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+      .success {
+        color: green;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Uploaded material JSON File</h1>
+    {% if messages %} {% for message in messages %}
+    <p class="success">{{ message }}</p>
+    {% endfor %} {% endif %}
+    <form
+      id="upload-form"
+      method="post"
+      enctype="multipart/form-data"
+      action="{% url 'upload_view_json' %}"
+    >
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit">Upload</button>
+    </form>
+
+    <h1>Vehicle data</h1>
+    <input type="text" id="search-input" placeholder="Search...." />
+    <table id="data-table">
+      <thead>
+        <tr>
+          <th>Year</th>
+          <th>Make</th>
+          <th>Model</th>
+          <th>Rejection %</th>
+          <th>Rejection reason #1</th>
+          <th>Rejection reason #2</th>
+          <th>Rejection reason #3</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for vehicle in vehicles %}
+        <tr>
+          <td>{{ vehicle.model_year }}</td>
+          <td>{{ vehicle.make }}</td>
+          <td>{{ vehicle.model }}</td>
+          <td>{{ vehicle.rejection_percentage }}</td>
+          <td>{{ vehicle.reason_1 }}</td>
+          <td>{{ vehicle.reason_2 }}</td>
+          <td>{{ vehicle.reason_3 }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script>
+      $(document).ready(function () {
+        $("#search-input").on("keyup", function () {
+          var input, filter, table, tr, td, i;
+          input = $("#search-input");
+          filter = $("#search-input").val().toUpperCase();
+          table = $("#data-table");
+          tr = $("tbody tr");
+          for (i = 0; i < tr.length; i++) {
+            tds = tr[i].getElementsByTagName("td");
+            var found = false;
+            for (j = 0; j < tds.length; j++) {
+              td = tds[j];
+              if (td) {
+                if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                  found = true;
+                  break;
+                }
+              }
+            }
+            if (found) {
+              tr[i].style.display = "";
+            } else {
+              tr[i].style.display = "none";
+            }
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
