@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',  
     'core_app',
-    'core_bluugo_csv',
+    'core_bluugo_json',
 ]
 
 MIDDLEWARE = [
@@ -76,7 +76,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'core_prj.wsgi.application'
-
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 15000
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
